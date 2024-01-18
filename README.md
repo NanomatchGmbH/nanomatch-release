@@ -1,6 +1,7 @@
 # Nanomatch Release Repository
 
 This repository contains environment definitions to install our software and instructions to mirror our repository offline in case you are running our software in an air-gapped setup.
+Start off by cloning the repository: `git clone git@github.com:NanomatchGmbH/nanomatch-release.git`. In case we release new versions you can always just `git pull`.
 
 ## Versioning
 
