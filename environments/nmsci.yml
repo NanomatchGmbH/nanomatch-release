@@ -1,0 +1,18 @@
+channels:
+  - https://mamba.nanomatch-distribution.de/mamba-repo
+  - conda-forge
+dependencies:
+  - quantumpatch
+  - deposit
+  - lightforge
+  - psi4
+  - dftbplus
+  - dftbparameters
+  - xtb
+  - cp2k
+  - pycp2k
+  - mypycp2k
+  - python=3.12
+  - nanomatch_config
+platforms:
+  - linux-64

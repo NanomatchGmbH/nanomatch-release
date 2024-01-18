@@ -1,0 +1,7 @@
+channels:
+  - https://mamba.nanomatch-distribution.de/mamba-repo
+  - conda-forge
+dependencies:
+  - simstackserver
+platforms:
+  - linux-64
