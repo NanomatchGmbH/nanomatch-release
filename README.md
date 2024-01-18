@@ -19,7 +19,7 @@ During the installation process you will be prompted whether you wish to initial
 You can list all available install sources by invoking
 
 ```
-    ./install_environment_helper.sh
+./install_environment_helper.sh
 ```
 Copy and paste the resulting command into your shell to download and install the nanomatch environment.
 
@@ -31,8 +31,8 @@ During the installation you will be instructed to setup a nanomatch.config file.
 Due to an [unfortunate choice when packaging libcrypto in rhel8](https://github.com/conda/conda/issues/10241), rhel8 binaries are incompatible with libcrypto contained in our environment. After installing the respective environments please also install
 rhel8-ssh-workaround via
 ```
-    micromamba activate nmsci-2024.1 # Replace this with the target environment you just installed
-    micromamba install rhel8_ssh_workaround -c https://mamba.nanomatch-distribution.de/mamba-repo
+micromamba activate nmsci-2024.1 # Replace this with the target environment you just installed
+micromamba install rhel8_ssh_workaround -c https://mamba.nanomatch-distribution.de/mamba-repo
 ```
 to workaround this behaviour.
 
