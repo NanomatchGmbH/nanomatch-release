@@ -11,7 +11,7 @@ Different major versions can be installed alongside each other. Settings compati
 ## Installing micromamba (prerequisite for our software).
 
 Please install micromamba by following the automatic install documentation from here: [Micromamba install docs](https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html)
-Follow the manual installation and move over the file in case of an air-gapped install.
+In case of an air-gapped install (i.e. when you cannot access our repository from your computational resource), please follow the manual installation instead and move over the file respectively.
 
 ## Installing from online sources
 
