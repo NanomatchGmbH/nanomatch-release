@@ -24,7 +24,10 @@ You can list all available install sources by invoking
 Copy and paste the resulting command into your shell to download and install the nanomatch environment.
 
 ## Adaptations of your environment
-During the installation you will be instructed to setup a nanomatch.config file. Check the output of the installation in your terminal for details.
+During the installation you will be instructed to setup a nanomatch.config file. Check the output, when you activate your environment for the first time in your terminal for details, when you activate your environment for the first time.
+```
+micromamba activate nmsci-2024.1 # This should produce an output on first activate.
+```
 
 ## Remark for RHEL8 installs
 
