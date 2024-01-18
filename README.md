@@ -12,6 +12,7 @@ Different major versions can be installed alongside each other. Settings compati
 
 Please install micromamba by following the automatic install documentation from here: [Micromamba install docs](https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html)
 In case of an air-gapped install (i.e. when you cannot access our repository from your computational resource), please follow the manual installation instead and move over the file respectively.
+During the installation process you will be prompted whether you wish to initialize your shell and conda-forge as a default repo. Choose "yes" in both cases unless you are familiar with this process and prefer a different setup.
 
 ## Installing from online sources
 
