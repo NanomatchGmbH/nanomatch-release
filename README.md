@@ -28,4 +28,4 @@ During the installation you will be instructed to setup a nanomatch.config file.
 
 ## License server install
 
-Keep in mind that you will need to install our CodeMeter license server component no matter if you have an online or offline install to use the packages.
+Keep in mind that you will need to install our CodeMeter license server component no matter if you have an online or offline install to use the packages. Instructions will shortly be available [here](http://docs.nanomatch.de/technical/technical.html).
