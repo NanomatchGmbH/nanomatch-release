@@ -39,6 +39,36 @@ micromamba install rhel8_ssh_workaround -c https://mamba.nanomatch-distribution.
 ```
 to workaround this behaviour.
 
+## Air-gapped installations
+
+For air-gapped installations, please start by creating a new directory in the *same directory* you will also host the new environment on your server. This is not the installation directory, but rather the directory you will install from. It can be shared between multiple users. Inside the directory execute `./tools/prepare_airgapped.py`.
+In other words:
+```
+# On your local machine
+mkdir /same/path/as/on/cluster
+./tools/prepare_airgappep.py
+```
+You can execute this script multiple times. It will not redownload already downloaded releases. If a new release was released and you updated the repository, you can call the script again and it will only receive new files.
+Afterwards transfer the files to your cluster, e.g. with rsync
+```
+# On your local machine
+rsync -av . yourcluster:/same/path/as/on/cluster/
+```
+On your cluster you can then invoke `./install_environment_helper.sh`, which in addition to the online releases should show the same amount of offline releases available for install.
+```
+# On your cluster
+cd /same/path/as/on/cluster
+./install_environment_helper.sh
+```
+
+You also need to install the rhel8 ssh workaround (if required) from the local repository contained in this repo:
+```
+# On the cluster machine (inside the repository)
+micromamba activate nmsci-2024.1 # Or the respective environment
+micromamba install --override-channels rhel8_ssh_workaround -c `realpath rhel8_workaround_channel`
+micromamba deactivate
+```
+
 ## License server install
 
 Keep in mind that you will need to install our CodeMeter license server component no matter if you have an online or offline install to use the packages. Instructions will shortly be available [here](http://docs.nanomatch.de/technical/technical.html).

@@ -1,0 +1,23 @@
+{
+  "info": {
+    "subdir": "linux-64"
+  },
+  "packages": {
+    "rhel8_ssh_workaround-1.0.0-0.tar.bz2": {
+      "build": "0",
+      "build_number": 0,
+      "depends": [],
+      "license": "MIT",
+      "md5": "85bea75f06efe9e4383b626c69b7752d",
+      "name": "rhel8_ssh_workaround",
+      "sha256": "f99325ab0db328a8910abe8f1508ded1a00d8aef13115c655242728c7abf2658",
+      "size": 3641,
+      "subdir": "linux-64",
+      "timestamp": 1703926009930,
+      "version": "1.0.0"
+    }
+  },
+  "packages.conda": {},
+  "removed": [],
+  "repodata_version": 1
+}

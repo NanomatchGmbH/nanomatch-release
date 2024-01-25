@@ -1,0 +1,39 @@
+{
+  "channeldata_version": 1,
+  "packages": {
+    "rhel8_ssh_workaround": {
+      "activate.d": true,
+      "binary_prefix": false,
+      "deactivate.d": false,
+      "description": null,
+      "dev_url": null,
+      "doc_source_url": null,
+      "doc_url": null,
+      "home": "https://github.com/NanomatchGmbH/rhel8-ssh-workaround.git (push)",
+      "icon_hash": null,
+      "icon_url": null,
+      "identifiers": null,
+      "keywords": null,
+      "license": "MIT",
+      "post_link": false,
+      "pre_link": false,
+      "pre_unlink": false,
+      "recipe_origin": null,
+      "run_exports": {},
+      "source_git_url": null,
+      "source_url": null,
+      "subdirs": [
+        "linux-64"
+      ],
+      "summary": "Path override to workaround RHEL8 openssl symbol conflicts with ssh",
+      "tags": null,
+      "text_prefix": false,
+      "timestamp": 1703926009,
+      "version": "1.0.0"
+    }
+  },
+  "subdirs": [
+    "linux-64",
+    "noarch"
+  ]
+}
