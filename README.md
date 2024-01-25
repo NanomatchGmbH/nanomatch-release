@@ -46,7 +46,8 @@ In other words:
 ```
 # On your local machine
 mkdir /same/path/as/on/cluster
-./tools/prepare_airgappep.py
+git clone git@github.com:NanomatchGmbH/nanomatch-release.git
+./tools/prepare_airgapped.py
 ```
 You can execute this script multiple times. It will not redownload already downloaded releases. If a new release was released and you updated the repository, you can call the script again and it will only receive new files.
 Afterwards transfer the files to your cluster, e.g. with rsync
