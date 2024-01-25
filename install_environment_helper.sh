@@ -23,7 +23,12 @@ echo
 for env in $(find $OFFLINEDIR -name "*.conda-lock.yml" | sort -r )
 do
     envname=$(basename $env .conda-lock.yml)
-    target=$(targetver $envname)
+    if [ $envname == "simstackserver" ]
+    then
+        target="simstack_server_v6"
+    else
+        target=$(targetver $envname)
+    fi
 
     echo " --- $envname ---"
     echo "  Offline environment: $envname to be installed to target env: $target"
@@ -35,7 +40,12 @@ done
 for env in $(find $ENVDIR -name "*.conda-lock.yml" | sort -r )
 do
     envname=$(basename $env .conda-lock.yml)
-    target=$(targetver $envname)
+    if [ $envname == "simstackserver" ]
+    then
+        target="simstack_server_v6"
+    else
+        target=$(targetver $envname)
+    fi
 
     echo " --- $envname ---"
     echo "  Environment: $envname to be installed to target env: $target"
