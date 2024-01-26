@@ -61,8 +61,8 @@ On your cluster you can then invoke `./install_environment_helper.sh`, which in 
 cd /same/path/as/on/cluster
 ./install_environment_helper.sh
 ```
-
-You also need to install the rhel8 ssh workaround (if required) from the local repository contained in this repo:
+Install the nm-sci environment and the simstack environment using the commands provided by this script.
+If required, subsequently install the rhel8 ssh workaround from the local repository contained in this repo using:
 ```
 # On the cluster machine (inside the repository)
 micromamba activate nmsci-2024.1 # Or the respective environment
