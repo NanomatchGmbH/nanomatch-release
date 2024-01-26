@@ -55,7 +55,7 @@ Afterwards transfer the files to your cluster, e.g. with rsync
 # On your local machine
 rsync -av . yourcluster:/same/path/as/on/cluster/
 ```
-On your cluster you can then invoke `./install_environment_helper.sh`, which in addition to the online releases should show the same amount of offline releases available for install.
+On your cluster you can then invoke `./install_environment_helper.sh`, which in addition to the online releases should show the same amount of offline releases available for install:
 ```
 # On your cluster
 cd /same/path/as/on/cluster
