@@ -41,11 +41,11 @@ to workaround this behaviour.
 
 ## Air-gapped installations
 
-For air-gapped installations, please start by creating a new directory in the *same directory* you will also host the new environment on your server. This is not the installation directory, but rather the directory you will install from. It can be shared between multiple users. Inside the directory execute `./tools/prepare_airgapped.py`.
-In other words:
+For air-gapped installations, we start on a local machine with connection to the internet. Start by creating a new directory in the *same directory* where you will also host the new environment on your server. This is not the installation directory, but rather the directory you will install from. It can be shared between multiple users. Inside the directory on your local machine, execute `./tools/prepare_airgapped.py`:
 ```
 # On your local machine
 mkdir /same/path/as/on/cluster
+cd /same/path/as/on/cluster
 git clone git@github.com:NanomatchGmbH/nanomatch-release.git
 ./tools/prepare_airgapped.py
 ```
