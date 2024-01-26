@@ -40,8 +40,32 @@ micromamba install rhel8_ssh_workaround -c https://mamba.nanomatch-distribution.
 to workaround this behaviour.
 
 ## Air-gapped installations
+For air-gapped installations, we start on a local machine with connection to the internet, download required files, copy them to the cluster and execute there. This needs to be done for both the installation of micromamba and the nanomatch software.
+### Air-gapped micromamba installation
+On your local machine in a directory of your choice, run one of the following commands:
+```
+# On your local machine
+# Linux Intel (x86_64):
+curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba
+# Linux ARM64:
+curl -Ls https://micro.mamba.pm/api/micromamba/linux-aarch64/latest | tar -xvj bin/micromamba
+# Linux Power:
+curl -Ls https://micro.mamba.pm/api/micromamba/linux-ppc64le/latest | tar -xvj bin/micromamba
+# macOS Intel (x86_64):
+curl -Ls https://micro.mamba.pm/api/micromamba/osx-64/latest | tar -xvj bin/micromamba
+# macOS Silicon/M1 (ARM64):
+curl -Ls https://micro.mamba.pm/api/micromamba/osx-arm64/latest | tar -xvj bin/micromamba
+```
+This will create a directory `bin`. Copy this directory to your server, login to your server and, in the respective directory, execute the following command:
+```
+./bin/micromamba shell init -s bash -p /path/of/your/choice
+```
+**Note**: Make sure to remember or save the `/path/of/your/choice`: This is the directory where the nanomatch software will later be accessible by the SimStack client.
 
-For air-gapped installations, we start on a local machine with connection to the internet. Start by creating a new directory in the *same directory* where you will also host the new environment on your server. This is not the installation directory, but rather the directory you will install from. It can be shared between multiple users. Inside the directory on your local machine, execute `./tools/prepare_airgapped.py`:
+Further information is available in the [Micromamba install docs](https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html)
+
+### Air-gapped installation of the nanomatch software
+For air-gapped installations of the nanomatch software, we again start on a local machine and create a new directory in the *same directory* where you will also host the new environment on your server. This is not the installation directory, but rather the directory you will install from. It can be shared between multiple users. Inside the directory on your local machine, execute `./tools/prepare_airgapped.py`:
 ```
 # On your local machine
 mkdir /same/path/as/on/cluster
