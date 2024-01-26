@@ -41,7 +41,8 @@ def get_url_and_hash_list(yml: Dict[str, Any]) -> List[Tuple[str, str]]:
         
 def hash_compare(filepath, sha256):
     with filepath.open("rb") as f:
-        digest = hashlib.file_digest(f, "sha256")
+        content = f.read()
+        digest = hashlib.sha256(content)
         if digest.hexdigest() != sha256:
             print("Downloaded file does not match referenced file. Will remove and redownload.")
             filepath.unlink()
