@@ -47,14 +47,6 @@ On your local machine in a directory of your choice, run one of the following co
 # On your local machine
 # Linux Intel (x86_64):
 curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba
-# Linux ARM64:
-curl -Ls https://micro.mamba.pm/api/micromamba/linux-aarch64/latest | tar -xvj bin/micromamba
-# Linux Power:
-curl -Ls https://micro.mamba.pm/api/micromamba/linux-ppc64le/latest | tar -xvj bin/micromamba
-# macOS Intel (x86_64):
-curl -Ls https://micro.mamba.pm/api/micromamba/osx-64/latest | tar -xvj bin/micromamba
-# macOS Silicon/M1 (ARM64):
-curl -Ls https://micro.mamba.pm/api/micromamba/osx-arm64/latest | tar -xvj bin/micromamba
 ```
 This will create a directory `bin`. Copy this directory to your server, login to your server and, in the respective directory, execute the following command:
 ```
@@ -65,27 +57,30 @@ This will create a directory `bin`. Copy this directory to your server, login to
 Further information is available in the [Micromamba install docs](https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html)
 
 ### Air-gapped installation of the nanomatch software
-For air-gapped installations of the nanomatch software, we again start on a local machine and create a new directory in the *same directory* where you will also host the new environment on your server. This is not the installation directory, but rather the directory you will install from. It can be shared between multiple users. Inside the directory on your local machine, execute `./tools/prepare_airgapped.py`:
+For air-gapped installations of the nanomatch software, we again start on a non air-gapped local machine and clone this repository.
+Inside the directory on your local machine, execute `./tools/prepare_airgapped.py`:
+
 ```
 # On your local machine
-mkdir /same/path/as/on/cluster
-cd /same/path/as/on/cluster
 git clone git@github.com:NanomatchGmbH/nanomatch-release.git
+cd nanomatch-release
 ./tools/prepare_airgapped.py
 ```
-You can execute this script multiple times. It will not redownload already downloaded releases. If a new release was released and you updated the repository, you can call the script again and it will only receive new files.
+You can execute this script multiple times. It will not redownload already downloaded releases. If a new release was released and you updated the repository (via `git pull`), you can call the script again and it will only receive new files.
 Afterwards transfer the files to your cluster, e.g. with rsync
 ```
 # On your local machine
-rsync -av . yourcluster:/same/path/as/on/cluster/
+cd ..
+rsync -av nanomatch-release yourcluster:/path/you/will/install/from/nanomatch-release
+# /path/you/will/install/from is not the nanomatch install directory but rather a local copy of our install repository you will start the install from.
 ```
-On your cluster you can then invoke `./install_environment_helper.sh`, which in addition to the online releases should show the same amount of offline releases available for install:
+On your cluster you can then invoke first `./tools/relocate_offline.py` and then `./install_environment_helper.sh`, which in addition to the online releases should show the same amount of offline releases available for install:
 ```
 # On your cluster
-cd /same/path/as/on/cluster
+./tools/relocate_offline.py
 ./install_environment_helper.sh
 ```
-Install the nm-sci environment and the simstack environment using the commands provided by this script.
+Install the offline nm-sci environment and the offline simstackserver environments using the commands provided by this script.
 If required, subsequently install the rhel8 ssh workaround from the local repository contained in this repo using:
 ```
 # On the cluster machine (inside the repository)
