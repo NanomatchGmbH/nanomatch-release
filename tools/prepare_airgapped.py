@@ -20,16 +20,16 @@ def url_to_target_dir(url: str) -> Tuple[Path, str]:
     return target_path, target_split[-1]
 
 def offline_channel_dir() -> Path:
-    return Path(__file__).parent.parent / "offline_channels"
+    return Path(__file__).resolve().parent.parent / "offline_channels"
 
 def repo_dir() -> Path:
-    return Path(__file__).parent.parent
+    return Path(__file__).resolve().parent.parent
 
 def releases_dir() -> Path:
-    return Path(__file__).parent.parent / "releases"
+    return Path(__file__).resolve().parent.parent / "releases"
 
 def offline_releases_dir() -> Path:
-    return Path(__file__).parent.parent / "offline_releases"
+    return Path(__file__).resolve().parent.parent / "offline_releases"
     
 def get_url_and_hash_list(yml: Dict[str, Any]) -> List[Tuple[str, str]]:
     returnlist = []
