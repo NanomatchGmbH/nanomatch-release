@@ -54,6 +54,8 @@ This will create a directory `bin`. Copy this directory to your server, login to
 ```
 **Note**: Make sure to remember or save the `/path/of/your/choice`: This is the directory where the nanomatch software will later be accessible by the SimStack client.
 
+**Note**: Source your `~/.bashrc` or log out and back onto your cluster in order to access micromamba.
+
 Further information is available in the [Micromamba install docs](https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html)
 
 ### Air-gapped installation of the nanomatch software
