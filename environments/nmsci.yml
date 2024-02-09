@@ -3,6 +3,7 @@ channels:
   - conda-forge
 dependencies:
   - quantumpatch
+  - dihedralparametrizer
   - deposit
   - lightforge
   - psi4
