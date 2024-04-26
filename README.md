@@ -24,9 +24,24 @@ You can list all available install sources by invoking
 Copy and paste the resulting command into your shell to download and install the nanomatch environment.
 
 ## Adaptations of your environment
-During the installation you will be instructed to setup a nanomatch.config file. Check the output, when you activate your environment for the first time in your terminal for details, when you activate your environment for the first time.
+### Configuration file
+During the installation you will be instructed to setup a configuration file `.nanomatch.config`. Afterwards, you can activate the environment with the following command: 
 ```
 micromamba activate nmsci-2024.1 # This should produce an output on first activate.
+```
+**Check the output for details, when you activate your environment for the first time.** 
+
+### Scratch 
+Open the .nanomatch.config file (typically located in your home directory) and adapt the scratch directory, e. g. 
+```
+export SCRATCH=/scratch/
+```
+Note the comments in the template config file for chosing a reasonable scratch directory. Ask your system admin in case of doubts. 
+
+### Turbomole
+In case you are using Turbomole as DFT engine, you need to install Turbomole and include the directory in your config file, e.g.:
+```
+export TURBODIR=/shared/software/TURBOMOLE
 ```
 
 ## Remark for RHEL8 installs
