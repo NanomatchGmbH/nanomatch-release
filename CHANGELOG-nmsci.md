@@ -4,6 +4,11 @@ Changelog about new releases of our software landscape
 
 ## [Unreleased]
 
+## [2024.1.3] - 2024-05-16
+
+- pyscf support for mobility
+- Added cloud licensing scheme
+
 ## [2024.1.2] - 2024-02-09
 
 - Added missing dihedralparametrizer package to release
