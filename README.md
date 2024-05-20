@@ -31,6 +31,19 @@ micromamba activate nmsci-2024.1 # This should produce an output on first activa
 ```
 **Check the output for details, when you activate your environment for the first time.** 
 
+### License Server
+You need to adapt NM_LICENSE_SERVER in the .nanomatch.config file. It has to point to the node in your network hosting the codemeter runtime, which is used to obtain our license. If you run our software on a workstation, this can also be the workstation itself.
+
+If you are running CodeMeter runtime on your computational resource, set
+
+```
+export NM_LICENSE_SERVER=localhost
+```
+If you are running CodeMeter Runtime on a different machine in your network, set NM_LICENSE_SERVER to the IP address of the machine where CodeMeter Runtime is running.
+
+Details on the license usage are available in our [documentation](http://docs.nanomatch.de/technical/licensing/licensing.html).
+
+
 ### Scratch 
 Open the .nanomatch.config file (typically located in your home directory) and adapt the scratch directory, e. g. 
 ```
