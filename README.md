@@ -32,7 +32,7 @@ micromamba activate nmsci-2024.1 # This should produce an output on first activa
 **Check the output for details, when you activate your environment for the first time.** 
 
 ### License Server
-Depending on your infrastructure and the setup of the license, you may need to adapt NM_LICENSE_SERVER in the .nanomatch.config file. 
+You need to adapt NM_LICENSE_SERVER in the .nanomatch.config file. It has to point to the node in your network hosting the codemeter runtime, which is used to obtain our license. If you run our software on a workstation, this can also be the workstation itself.
 
 If you are running CodeMeter runtime on your computational resource, set
 
