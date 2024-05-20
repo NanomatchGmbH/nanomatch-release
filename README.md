@@ -57,6 +57,20 @@ In case you are using Turbomole as DFT engine, you need to install Turbomole and
 export TURBODIR=/shared/software/TURBOMOLE
 ```
 
+## License server install
+
+Keep in mind that you will need to install a CodeMeter license server component no matter if you have an online or offline install to use the packages. Instructions are available [here](http://docs.nanomatch.de/technical/licensing/licensing.html).
+
+## SimStack usage
+
+Our software can be used in connection with the SimStack Workflow platform, providing a GUI for setup and execution of complex simulation workflows. Refer to our [documentation](http://docs.nanomatch.de/technical/technical.html) for details of the concept. You need to enter a "SW directory on Resource" when configuring the Server in the SimStack client. This directory corresponds to the micromamba base directory on your computational resource, i. e. the directory where the nmsci environment was installed. You can get this directory by executing
+
+```
+echo $MAMBA_ROOT_PREFIX
+```
+
+on your computational resource.
+
 ## Remark for RHEL8 installs
 
 Due to an [unfortunate choice when packaging libcrypto in rhel8](https://github.com/conda/conda/issues/10241), rhel8 binaries are incompatible with libcrypto contained in our environment. After installing the respective environments please also install
@@ -120,6 +134,4 @@ micromamba install --override-channels rhel8_ssh_workaround -c `realpath rhel8_w
 micromamba deactivate
 ```
 
-## License server install
 
-Keep in mind that you will need to install our CodeMeter license server component no matter if you have an online or offline install to use the packages. Instructions will shortly be available [here](http://docs.nanomatch.de/technical/technical.html).
