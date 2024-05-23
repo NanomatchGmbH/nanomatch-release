@@ -4,6 +4,10 @@ Changelog about new releases of our software landscape
 
 ## [Unreleased]
 
+## [2024.1.4] - 2024-05-23
+
+- bugfix: added missing pyscf package
+
 ## [2024.1.3] - 2024-05-16
 
 - pyscf support for mobility
