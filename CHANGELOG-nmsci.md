@@ -4,6 +4,12 @@ Changelog about new releases of our software landscape
 
 ## [Unreleased]
 
+## [2024.2.1] - 2024-06-28
+
+- feature QP: PySCF engine in WaNo
+- feature QP: storage location in WaNo
+- features LF: "generic" mode for couplings including scaling factors
+
 ## [2024.1.4] - 2024-05-23
 
 - bugfix: added missing pyscf package
