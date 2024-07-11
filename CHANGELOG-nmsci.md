@@ -4,6 +4,10 @@ Changelog about new releases of our software landscape
 
 ## [Unreleased]
 
+## [2024.2.2] - 2024-07-11
+
+- Rerelease due to cloud licensing issue (Cloud licenses are immediately released now)
+
 ## [2024.2.1] - 2024-06-28
 
 - feature QP: PySCF engine in WaNo
