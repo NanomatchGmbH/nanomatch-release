@@ -4,6 +4,10 @@ Changelog about new releases of our software landscape
 
 ## [Unreleased]
 
+## [2024.2.4] - 2024.09.05
+
+- Lightforge Coulomb Bugfix release
+
 ## [2024.2.3] - 2024.08.05
 
 - Release after bugfix in LF regarding some file system issue
