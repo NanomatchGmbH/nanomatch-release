@@ -67,14 +67,10 @@ install_nanoscope() {
 
     # Clone the nanomatch-release GitHub repository
     if [ -d "nanomatch-release" ]; then
-        echo -e "${YELLOW}nanomatch-release directory already exists.${NC}"
-        read -p "$(echo -e "${CYAN}Do you want to pull the latest updates? (Y/n): ${NC}")" update_repo
-        update_repo=${update_repo:-Y}
-        if [[ "$update_repo" =~ ^[Yy]$ ]]; then
-            cd nanomatch-release
-            git pull
-            cd ..
-        fi
+        echo -e "${YELLOW}nanomatch-release directory already exists. Pulling latest updates...${NC}"
+        cd nanomatch-release
+        git pull
+        cd ..
     else
         echo -e "${CYAN}Cloning nanomatch-release repository...${NC}"
         git clone https://github.com/NanomatchGmbH/nanomatch-release.git
@@ -83,7 +79,7 @@ install_nanoscope() {
     cd nanomatch-release
 
     # List available releases
-    echo -e "\n${GREEN}Listing available Nanoscope releases...${NC}\n"
+    echo -e "\n${GREEN}Fetching latest Nanoscope releases...${NC}\n"
     helper_output=$(./install_environment_helper.sh)
 
     # Parse the helper output to extract environments and commands
@@ -174,61 +170,15 @@ install_nanoscope() {
         fi
     done
 
-    # Ask user if they want to install the latest nmsci version
-    echo -e "${CYAN}The latest Nanoscope version is ${latest_nmsci_version}.${NC}"
-    read -p "$(echo -e "${CYAN}Do you want to install this version? (Y/n): ${NC}")" install_latest_nmsci
-    install_latest_nmsci=${install_latest_nmsci:-Y}
-    if [[ "$install_latest_nmsci" =~ ^[Yy]$ ]]; then
-        nmsci_version="$latest_nmsci_version"
-        nmsci_command="$latest_nmsci_command"
-    else
-        echo -e "${YELLOW}Available Nanoscope versions:${NC}"
-        for i in "${!nmsci_versions[@]}"; do
-            echo -e "${CYAN}$((i+1)). ${nmsci_versions[$i]}${NC}"
-        done
-        read -p "$(echo -e "${CYAN}Please enter the number corresponding to your choice: ${NC}")" nmsci_choice
-        nmsci_index=$((nmsci_choice - 1))
-        if [[ $nmsci_index -ge 0 && $nmsci_index -lt ${#nmsci_versions[@]} ]]; then
-            nmsci_version=${nmsci_versions[$nmsci_index]}
-            nmsci_command=${nmsci_commands[$nmsci_index]}
-        else
-            echo -e "${RED}Invalid selection.${NC}"
-            exit 1
-        fi
-    fi
+    # Install Nanoscope software (latest version)
+    echo -e "${CYAN}Installing Nanoscope software version ${latest_nmsci_version}...${NC}"
+    echo -e "${CYAN}Executing: ${latest_nmsci_command}${NC}"
+    eval "${latest_nmsci_command}"
 
-    # Ask user if they want to install the latest simstackserver version
-    echo -e "${CYAN}The latest SimStack Server version is ${latest_simstackserver_version}.${NC}"
-    read -p "$(echo -e "${CYAN}Do you want to install this version? (Y/n): ${NC}")" install_latest_simstackserver
-    install_latest_simstackserver=${install_latest_simstackserver:-Y}
-    if [[ "$install_latest_simstackserver" =~ ^[Yy]$ ]]; then
-        simstackserver_version="$latest_simstackserver_version"
-        simstackserver_command="$latest_simstackserver_command"
-    else
-        echo -e "${YELLOW}Available SimStack Server versions:${NC}"
-        for i in "${!simstackserver_versions[@]}"; do
-            echo -e "${CYAN}$((i+1)). ${simstackserver_versions[$i]}${NC}"
-        done
-        read -p "$(echo -e "${CYAN}Please enter the number corresponding to your choice: ${NC}")" simstackserver_choice
-        simstackserver_index=$((simstackserver_choice -1))
-        if [[ $simstackserver_index -ge 0 && $simstackserver_index -lt ${#simstackserver_versions[@]} ]]; then
-            simstackserver_version=${simstackserver_versions[$simstackserver_index]}
-            simstackserver_command=${simstackserver_commands[$simstackserver_index]}
-        else
-            echo -e "${RED}Invalid selection.${NC}"
-            exit 1
-        fi
-    fi
-
-    # Install Nanoscope software
-    echo -e "${CYAN}Installing Nanoscope software... This may take a few minutes.${NC}"
-    echo -e "${CYAN}Executing: ${nmsci_command}${NC}"
-    eval "${nmsci_command}"
-
-    # Install SimStack Server
-    echo -e "${CYAN}Installing SimStack Server... This may take a few minutes.${NC}"
-    echo -e "${CYAN}Executing: ${simstackserver_command}${NC}"
-    eval "${simstackserver_command}"
+    # Install SimStack Server (latest version)
+    echo -e "${CYAN}Installing SimStack Server version ${latest_simstackserver_version}...${NC}"
+    echo -e "${CYAN}Executing: ${latest_simstackserver_command}${NC}"
+    eval "${latest_simstackserver_command}"
 
     cd ..
 
@@ -237,84 +187,63 @@ install_nanoscope() {
     config_file="${HOME}/.nanomatch.config"
     touch "$config_file"
 
-    # Ask for the scratch directory
-    read -p "$(echo -e "${CYAN}Scratch directory (default: /scratch/): ${NC}")" scratch_dir
-    scratch_dir=${scratch_dir:-/scratch/}
+    # Set the scratch directory to default ($HOME/scratch)
+    scratch_dir="${HOME}/scratch"
+    mkdir -p "$scratch_dir"
     echo "export SCRATCH=$scratch_dir" >> "$config_file"
 
-    # # Ask if using a commercial license (Default Yes)
-    # read -p "$(echo -e "${CYAN}Are you using a commercial license? (Y/n): ${NC}")" use_license
-    # use_license=${use_license:-Y}
-    # if [[ "$use_license" =~ ^[Yy]$ ]]; then
-    #     echo -e "${YELLOW}\nIn case the CodeMeter runtime is installed on a different computer in your network than the computational resource itself, provide the corresponding IP address.${NC}"
-    #     echo -e "${YELLOW}See also Licensing documentation for details:${NC} ${BLUE}https://nanoscope.readthedocs.io/en/latest/docs/build/html/getting_started/licensing.html#getting-started-licensing.html${NC}\n"
-    #     read -p "$(echo -e "${CYAN}NM_LICENSE_SERVER address (default: localhost): ${NC}")" license_server
-    #     license_server=${license_server:-localhost}
-    #     echo "export NM_LICENSE_SERVER=$license_server" >> "$config_file"
-    # fi
+    # # Assume commercial license by default
+    # echo -e "${YELLOW}Using commercial license by default.${NC}"
+    # license_server="localhost"
+    # echo "export NM_LICENSE_SERVER=$license_server" >> "$config_file"
 
     echo -e "${GREEN}.nanomatch.config file has been set up at $config_file.${NC}"
 
     # Create a new environment for the SimStack Client
-    if micromamba env list | grep -q "simstack_client"; then
-        echo -e "${YELLOW}SimStack Client environment 'simstack_client' already exists.${NC}"
+    if micromamba env list | grep -w "simstack" &> /dev/null; then
+        echo -e "${YELLOW}SimStack Client environment 'simstack' already exists.${NC}"
         read -p "$(echo -e "${CYAN}Do you want to recreate it? (This will remove the existing environment) (y/N): ${NC}")" recreate_simstack_env
         recreate_simstack_env=${recreate_simstack_env:-N}
         if [[ "$recreate_simstack_env" =~ ^[Yy]$ ]]; then
-            micromamba remove --name simstack_client --all -y
-            micromamba create --name=simstack_client simstack -c https://mamba.nanomatch-distribution.de/mamba-repo -c conda-forge -y
+            micromamba remove --name simstack --all -y
+            micromamba create --name=simstack simstack -c https://mamba.nanomatch-distribution.de/mamba-repo -c conda-forge -y
         fi
     else
         echo -e "${CYAN}Creating a new environment for the SimStack Client...${NC}"
-        micromamba create --name=simstack_client simstack -c https://mamba.nanomatch-distribution.de/mamba-repo -c conda-forge -y
+        micromamba create --name=simstack simstack -c https://mamba.nanomatch-distribution.de/mamba-repo -c conda-forge -y
     fi
-
-    # Do not run SimStack Client
-    # echo -e "${CYAN}Running SimStack Client...${NC}"
-    # micromamba run -n simstack_client simstack &
 
     # Download the WaNos
     echo -e "\n${GREEN}Downloading WaNos...${NC}"
-    if [ -d "wano" ]; then
-        echo -e "${YELLOW}WaNos directory already exists.${NC}"
-        read -p "$(echo -e "${CYAN}Do you want to pull the latest updates? (Y/n): ${NC}")" update_wanos
-        update_wanos=${update_wanos:-Y}
-        if [[ "$update_wanos" =~ ^[Yy]$ ]]; then
-            cd wano
-            git pull
-            cd ..
-        fi
+    path_to_wanos="${INSTALL_DIR}/wano"
+    if [ -d "$path_to_wanos" ]; then
+        echo -e "${YELLOW}WaNos directory already exists. Pulling latest updates...${NC}"
+        cd "$path_to_wanos"
+        git pull
+        cd ..
     else
         echo -e "${CYAN}Cloning WaNos repository...${NC}"
-        git clone https://github.com/NanomatchGmbH/wano.git
+        git clone https://github.com/NanomatchGmbH/wano.git "$path_to_wanos"
     fi
 
     # Skip SSH configurations
 
     # Create the Local.clustersettings file inside the ClusterSettings folder
     # Get the path to the simstack executable
-    simstack_path=$(micromamba run -n simstack_client which simstack)
+    simstack_path=$(micromamba run -n simstack which simstack)
     simstack_dir=$(dirname "$simstack_path")
 
-    # Set cluster_settings_dir to $HOME/.config/SimStack/ClusterSettings
+    # Set ClusterSettings directory to $HOME/.config/SimStack/ClusterSettings
     cluster_settings_dir="${HOME}/.config/SimStack/ClusterSettings"
     mkdir -p "$cluster_settings_dir"
 
-    # Ask for CalculationBasepath
+    # Set default CalculationBasepath and create the directory if it doesn't exist
     default_calc_basepath="${HOME}/simstack_calculations"
-    read -p "$(echo -e "${CYAN}Calculation Basepath [${default_calc_basepath}]: ${NC}")" calc_basepath
-    calc_basepath=${calc_basepath:-${default_calc_basepath}}
+    mkdir -p "$default_calc_basepath"
+    calc_basepath="${default_calc_basepath}"
 
-    # Get SoftwareDirectoryOnResource
-    echo -e "${CYAN}Determining Software Directory on Resource...${NC}"
-    micromamba_info_output=$(micromamba info)
-    software_dir=$(echo "$micromamba_info_output" | grep 'base environment' | awk -F ': ' '{print $2}')
-    echo -e "${CYAN}Software Directory on Resource detected as ${software_dir}.${NC}"
-    read -p "$(echo -e "${CYAN}Is this correct? (Y/n): ${NC}")" confirm_software_dir
-    confirm_software_dir=${confirm_software_dir:-Y}
-    if [[ ! "$confirm_software_dir" =~ ^[Yy]$ ]]; then
-        read -p "$(echo -e "${CYAN}Please enter the Software Directory on Resource: ${NC}")" software_dir
-    fi
+    # Get SoftwareDirectoryOnResource from micromamba info
+    base_env_path=$(micromamba info | grep 'base environment' | awk -F ':' '{print $2}' | xargs)
 
     # Create the Local.clustersettings file
     local_clustersettings_file="${cluster_settings_dir}/Local.clustersettings"
@@ -332,7 +261,7 @@ install_nanoscope() {
     "username": "$USER",
     "basepath": "$calc_basepath",
     "queueing_system": "Internal",
-    "sw_dir_on_resource": "$software_dir",
+    "sw_dir_on_resource": "$base_env_path",
     "extra_config": "None Required (default)",
     "ssh_private_key": "UseSystemDefault",
     "sge_pe": "",
@@ -340,21 +269,30 @@ install_nanoscope() {
 }
 EOF
 
-    echo -e "\n${GREEN}Installation and configuration on the workstation are complete.${NC}"
+    # Create the ssh_clientsettings.yml file
+    simstack_settings_dir="${HOME}/.local/share/simstack/NanoMatch"
+    mkdir -p "$simstack_settings_dir"
+    ssh_clientsettings_file="${simstack_settings_dir}/ssh_clientsettings.yml"
+    cat <<EOF > "$ssh_clientsettings_file"
+WaNo_Repository_Path: ${path_to_wanos}
+workflow_path: ${calc_basepath}
+EOF
 
+    echo -e "\n${GREEN}Installation and configuration on the workstation are complete.${NC}"
 
     # Ask the user if they want to start SimStack now
     read -p "$(echo -e "${CYAN}Do you want to start SimStack now? (Y/n): ${NC}")" start_simstack
     start_simstack=${start_simstack:-Y}
     if [[ "$start_simstack" =~ ^[Yy]$ ]]; then
-        echo -e "${CYAN}To launch SimStack in the future, run the following commands:${NC}"
-        echo -e "${YELLOW}micromamba activate simstack_client${NC}"
-        echo -e "${YELLOW}simstack${NC}"
-        # echo -e "${CYAN}Now I am starting SimStack...${NC}"
-        # micromamba activate simstack_client
-        # simstack
-        # echo -e "${GREEN}SimStack has been started.${NC}"
+        echo -e "${CYAN}Starting SimStack...${NC}"
+        micromamba activate simstack
+        simstack
+        echo -e "${GREEN}SimStack has been started.${NC}"
     fi
+
+    echo -e "${CYAN}To launch SimStack in the future, run the following commands:${NC}"
+    echo -e "${YELLOW}micromamba activate simstack${NC}"
+    echo -e "${YELLOW}simstack${NC}"
 }
 
 update_nanoscope() {
@@ -387,3 +325,4 @@ if [ "$INSTALL_NANOSCOPE" = true ]; then
 elif [ "$UPDATE_NANOSCOPE" = true ]; then
     update_nanoscope
 fi
+
