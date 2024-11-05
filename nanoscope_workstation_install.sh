@@ -50,24 +50,23 @@ select opt in "${options[@]}"; do
 done
 
 install_nanoscope() {
+
     echo -e "\n${GREEN}Installing Nanoscope on your workstation...${NC}\n"
 
     # Check if micromamba is installed
     if ! command -v micromamba &> /dev/null; then
         echo -e "${RED}micromamba is not installed or not recognized.${NC}"
-        echo -e "${CYAN}If you have just installed micromamba, please restart your shell and try again.${NC}"
-        echo -e "${CYAN}Otherwise, please install micromamba by running the following commands:${NC}"
-        echo -e "${YELLOW}\"${SHELL}\" <(curl -L micro.mamba.pm/install.sh)${NC}"
-        echo -e "${YELLOW}micromamba self-update --version=1.5.6${NC}"
+        echo -e "${YELLOW}If you have just installed micromamba, please restart your shell and try again.${NC}"
+        echo -e "${YELLOW}Otherwise, please install micromamba by running the following commands:${NC}"
+        echo -e "${CYAN}\"${SHELL}\" <(curl -L micro.mamba.pm/install.sh)${NC}"
+        echo -e "${CYAN}micromamba self-update --version=1.5.6${NC}"
         echo -e "${RED}Installation cannot proceed without micromamba.${NC}"
         exit 1
-    else
-        echo -e "${GREEN}micromamba is correctly installed.${NC}"
     fi
 
     # Clone the nanomatch-release GitHub repository
     if [ -d "nanomatch-release" ]; then
-        echo -e "${YELLOW}nanomatch-release directory already exists. Pulling latest updates...${NC}"
+        echo -e "${CYAN}Updating nanomatch-release repository...${NC}"
         cd nanomatch-release
         git pull
         cd ..
@@ -78,8 +77,8 @@ install_nanoscope() {
 
     cd nanomatch-release
 
-    # List available releases
-    echo -e "\n${GREEN}Fetching latest Nanoscope releases...${NC}\n"
+    # Fetching latest Nanoscope releases
+    echo -e "${CYAN}Fetching latest Nanoscope releases...${NC}"
     helper_output=$(./install_environment_helper.sh)
 
     # Parse the helper output to extract environments and commands
@@ -171,19 +170,17 @@ install_nanoscope() {
     done
 
     # Install Nanoscope software (latest version)
-    echo -e "${CYAN}Installing Nanoscope software version ${latest_nmsci_version}...${NC}"
-    echo -e "${CYAN}Executing: ${latest_nmsci_command}${NC}"
+    echo -e "${CYAN}Installing Nanoscope software version ${latest_nmsci_version}... Please wait...${NC}"
     eval "${latest_nmsci_command}"
 
     # Install SimStack Server (latest version)
-    echo -e "${CYAN}Installing SimStack Server version ${latest_simstackserver_version}...${NC}"
-    echo -e "${CYAN}Executing: ${latest_simstackserver_command}${NC}"
+    echo -e "${CYAN}Installing SimStack Server version ${latest_simstackserver_version}... Please wait...${NC}"
     eval "${latest_simstackserver_command}"
 
     cd ..
 
     # Set up the .nanomatch.config file
-    echo -e "\n${GREEN}Setting up .nanomatch.config file...${NC}"
+    echo -e "${CYAN}Setting up .nanomatch.config file...${NC}"
     config_file="${HOME}/.nanomatch.config"
     touch "$config_file"
 
@@ -192,32 +189,25 @@ install_nanoscope() {
     mkdir -p "$scratch_dir"
     echo "export SCRATCH=$scratch_dir" >> "$config_file"
 
-    # # Assume commercial license by default
-    # echo -e "${YELLOW}Using commercial license by default.${NC}"
+    # Commented out the license part
+    # echo -e "Using commercial license by default."
     # license_server="localhost"
     # echo "export NM_LICENSE_SERVER=$license_server" >> "$config_file"
 
-    echo -e "${GREEN}.nanomatch.config file has been set up at $config_file.${NC}"
-
     # Create a new environment for the SimStack Client
     if micromamba env list | grep -w "simstack" &> /dev/null; then
-        echo -e "${YELLOW}SimStack Client environment 'simstack' already exists.${NC}"
-        read -p "$(echo -e "${CYAN}Do you want to recreate it? (This will remove the existing environment) (y/N): ${NC}")" recreate_simstack_env
-        recreate_simstack_env=${recreate_simstack_env:-N}
-        if [[ "$recreate_simstack_env" =~ ^[Yy]$ ]]; then
-            micromamba remove --name simstack --all -y
-            micromamba create --name=simstack simstack -c https://mamba.nanomatch-distribution.de/mamba-repo -c conda-forge -y
-        fi
+        echo -e "${YELLOW}SimStack environment 'simstack' already exists.${NC}"
+        recreate_simstack_env="N"
     else
-        echo -e "${CYAN}Creating a new environment for the SimStack Client...${NC}"
+        echo -e "${CYAN}Creating a new environment for the SimStack Client... Please wait...${NC}"
         micromamba create --name=simstack simstack -c https://mamba.nanomatch-distribution.de/mamba-repo -c conda-forge -y
     fi
 
     # Download the WaNos
-    echo -e "\n${GREEN}Downloading WaNos...${NC}"
+    echo -e "${CYAN}Downloading WaNos...${NC}"
     path_to_wanos="${INSTALL_DIR}/wano"
     if [ -d "$path_to_wanos" ]; then
-        echo -e "${YELLOW}WaNos directory already exists. Pulling latest updates...${NC}"
+        echo -e "${CYAN}Updating WaNos repository...${NC}"
         cd "$path_to_wanos"
         git pull
         cd ..
@@ -226,7 +216,9 @@ install_nanoscope() {
         git clone https://github.com/NanomatchGmbH/wano.git "$path_to_wanos"
     fi
 
-    # Skip SSH configurations
+    # Create the workflows directory
+    workflow_path="${INSTALL_DIR}/workflows"
+    mkdir -p "$workflow_path"
 
     # Create the Local.clustersettings file inside the ClusterSettings folder
     # Get the path to the simstack executable
@@ -275,48 +267,69 @@ EOF
     ssh_clientsettings_file="${simstack_settings_dir}/ssh_clientsettings.yml"
     cat <<EOF > "$ssh_clientsettings_file"
 WaNo_Repository_Path: ${path_to_wanos}
-workflow_path: ${calc_basepath}
+workflow_path: ${workflow_path}
 EOF
 
     echo -e "\n${GREEN}Installation and configuration on the workstation are complete.${NC}"
 
-    # Ask the user if they want to start SimStack now
-    read -p "$(echo -e "${CYAN}Do you want to start SimStack now? (Y/n): ${NC}")" start_simstack
-    start_simstack=${start_simstack:-Y}
-    if [[ "$start_simstack" =~ ^[Yy]$ ]]; then
-        echo -e "${CYAN}Starting SimStack...${NC}"
-        micromamba activate simstack
-        simstack
-        echo -e "${GREEN}SimStack has been started.${NC}"
-    fi
+    # Collect paths for output
+    micromamba_envs_dir=$(micromamba info | grep 'envs directories' | awk -F ':' '{print $2}' | xargs)
+    nanomatch_release_dir="${INSTALL_DIR}/nanomatch-release"
 
-    echo -e "${CYAN}To launch SimStack in the future, run the following commands:${NC}"
+    # Prepare the output
+    echo -e "\n${CYAN}Main Folders and Paths:${NC}"
+    echo -e "${YELLOW}Nanoscope version:${NC} ${latest_nmsci_version}"
+    echo -e "${YELLOW}WaNo folder:${NC} ${path_to_wanos}"
+    echo -e "${YELLOW}Workflows folder:${NC} ${workflow_path}"
+    echo -e "${YELLOW}Calculations folder:${NC} ${calc_basepath}"
+    echo -e "${YELLOW}Scratch folder:${NC} ${scratch_dir}"
+    echo -e "${YELLOW}Nanomatch-release files folder:${NC} ${nanomatch_release_dir}"
+    echo -e "${YELLOW}Micromamba environments folder:${NC} ${micromamba_envs_dir}"
+
+    # Save to Main_folders_paths.txt
+    paths_file="${INSTALL_DIR}/Main_folders_paths.txt"
+    cat <<EOF > "$paths_file"
+Main Folders and Paths:
+
+Nanoscope version: ${latest_nmsci_version}
+WaNo folder: ${path_to_wanos}
+Workflows folder: ${workflow_path}
+Calculations folder: ${calc_basepath}
+Scratch folder: ${scratch_dir}
+Nanomatch-release files folder: ${nanomatch_release_dir}
+Micromamba environments folder: ${micromamba_envs_dir}
+EOF
+
+    echo -e "\n${CYAN}You can view this list again by running:${NC}"
+    echo -e "${YELLOW}cat ${paths_file}${NC}"
+
+    echo -e "\n${GREEN}To start SimStack, you need to enter the following commands:${NC}"
     echo -e "${YELLOW}micromamba activate simstack${NC}"
     echo -e "${YELLOW}simstack${NC}"
+
+    echo -e "\n${GREEN}Installation completed successfully.${NC}"
 }
 
 update_nanoscope() {
-    echo -e "\n${GREEN}Updating Nanoscope...${NC}\n"
+    echo -e "\n${GREEN}Updating Nanoscope...${NC}"
 
     # Update nanomatch-release
     if [ -d "nanomatch-release" ]; then
+        echo -e "${CYAN}Updating nanomatch-release repository...${NC}"
         cd nanomatch-release
         git pull
         cd ..
-    else
-        echo -e "${RED}nanomatch-release directory not found. Please install Nanoscope first.${NC}"
     fi
 
     # Update WaNos
     if [ -d "wano" ]; then
+        echo -e "${CYAN}Updating WaNos repository...${NC}"
         cd wano
         git pull
         cd ..
-    else
-        echo -e "${RED}WaNos directory not found. Please install Nanoscope first.${NC}"
     fi
 
-    echo -e "\n${GREEN}Update complete.${NC}"
+    echo -e "${GREEN}Update complete.${NC}"
 }
 
 # Main logic
