@@ -2,7 +2,11 @@
 
 Changelog about new releases of our software landscape 
 
-## [Unreleased]
+## [2024.3] - 2024.11.06
+
+- QP fixes for IP EA runs, compatible with ESAnalysis WaNo
+- QP main entry point to use to determine file format for any-file-input in new MolPrep Wano
+- All modules: adapted license check: No license required for < 40 atoms and certain molecules
 
 ## [2024.2.4] - 2024.09.05
 
