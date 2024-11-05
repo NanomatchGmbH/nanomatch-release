@@ -1,53 +1,22 @@
 #!/bin/bash
 
 # Nanoscope Installer Script
-# Options:
-# 1. Install Nanoscope on a workstation
-# 2. Update Nanoscope
-# 3. Quit
 
 # Color codes for highlighting
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 YELLOW='\033[1;33m'
-MAGENTA='\033[0;35m'
 NC='\033[0m' # No Color
 
 echo -e "${GREEN}======================================================"
 echo -e "     Welcome to the Nanoscope Installation Script     "
 echo -e "======================================================${NC}\n"
 
-# Create and move into the ~/nanomatch-software directory
-INSTALL_DIR="${HOME}/nanomatch-software"
+# Create and move into the ~/nanoscope directory
+INSTALL_DIR="${HOME}/nanoscope"
 mkdir -p "$INSTALL_DIR"
 cd "$INSTALL_DIR"
-
-# Ask the user what they want to do
-echo -e "${YELLOW}Please select an option:${NC}"
-options=("Install Nanoscope on a workstation" "Update Nanoscope" "Quit")
-select opt in "${options[@]}"; do
-    case $REPLY in
-        1 )
-            INSTALL_NANOSCOPE=true
-            UPDATE_NANOSCOPE=false
-            break
-            ;;
-        2 )
-            INSTALL_NANOSCOPE=false
-            UPDATE_NANOSCOPE=true
-            break
-            ;;
-        3 )
-            echo -e "${RED}Exiting the installation script.${NC}"
-            exit 0
-            ;;
-        * )
-            echo -e "${RED}Please select a valid option (1-3).${NC}"
-            ;;
-    esac
-done
 
 install_nanoscope() {
 
@@ -179,20 +148,33 @@ install_nanoscope() {
 
     cd ..
 
-    # Set up the .nanomatch.config file
+    # Set up the .nanomatch.config file from the template
     echo -e "${CYAN}Setting up .nanomatch.config file...${NC}"
-    config_file="${HOME}/.nanomatch.config"
-    touch "$config_file"
+    # Get micromamba environments directory
+    micromamba_envs_dir=$(micromamba info | grep 'envs directories' | awk -F ':' '{print $2}' | xargs)
+    # Extract the nmsci environment name from latest_nmsci_command
+    nmsci_environment=$(echo "$latest_nmsci_command" | grep -oP '(?<=--name=)[^\s]+')
+
+    # Construct the path to nanomatch.config.template
+    nanomatch_config_template="${micromamba_envs_dir}/${nmsci_environment}/nanomatch.config.template"
 
     # Set the scratch directory to default ($HOME/scratch)
     scratch_dir="${HOME}/scratch"
     mkdir -p "$scratch_dir"
-    echo "export SCRATCH=$scratch_dir" >> "$config_file"
 
-    # Commented out the license part
-    # echo -e "Using commercial license by default."
-    # license_server="localhost"
-    # echo "export NM_LICENSE_SERVER=$license_server" >> "$config_file"
+    if [ -f "$nanomatch_config_template" ]; then
+        echo -e "${CYAN}Using template config file from ${nanomatch_config_template}${NC}"
+        # Read the template, replace export SCRATCH line
+        config_file="${HOME}/.nanomatch.config"
+        sed "s|export SCRATCH=.*|export SCRATCH=${scratch_dir}|" "$nanomatch_config_template" > "$config_file"
+    else
+        echo -e "${RED}Template config file not found at ${nanomatch_config_template}.${NC}"
+        # Handle error or create a basic config file
+        echo -e "${CYAN}Creating basic .nanomatch.config file...${NC}"
+        echo "#!/bin/bash" > "$config_file"
+        echo "" >> "$config_file"
+        echo "export SCRATCH=${scratch_dir}" >> "$config_file"
+    fi
 
     # Create a new environment for the SimStack Client
     if micromamba env list | grep -w "simstack" &> /dev/null; then
@@ -229,10 +211,9 @@ install_nanoscope() {
     cluster_settings_dir="${HOME}/.config/SimStack/ClusterSettings"
     mkdir -p "$cluster_settings_dir"
 
-    # Set default CalculationBasepath and create the directory if it doesn't exist
-    default_calc_basepath="${HOME}/simstack_calculations"
-    mkdir -p "$default_calc_basepath"
-    calc_basepath="${default_calc_basepath}"
+    # Set CalculationBasepath to INSTALL_DIR/calculations
+    calc_basepath="${INSTALL_DIR}/calculations"
+    mkdir -p "$calc_basepath"
 
     # Get SoftwareDirectoryOnResource from micromamba info
     base_env_path=$(micromamba info | grep 'base environment' | awk -F ':' '{print $2}' | xargs)
@@ -273,7 +254,6 @@ EOF
     echo -e "\n${GREEN}Installation and configuration on the workstation are complete.${NC}"
 
     # Collect paths for output
-    micromamba_envs_dir=$(micromamba info | grep 'envs directories' | awk -F ':' '{print $2}' | xargs)
     nanomatch_release_dir="${INSTALL_DIR}/nanomatch-release"
 
     # Prepare the output
@@ -285,6 +265,7 @@ EOF
     echo -e "${YELLOW}Scratch folder:${NC} ${scratch_dir}"
     echo -e "${YELLOW}Nanomatch-release files folder:${NC} ${nanomatch_release_dir}"
     echo -e "${YELLOW}Micromamba environments folder:${NC} ${micromamba_envs_dir}"
+    echo -e "${YELLOW}.nanomatch.config file:${NC} ${config_file}"
 
     # Save to Main_folders_paths.txt
     paths_file="${INSTALL_DIR}/Main_folders_paths.txt"
@@ -298,6 +279,7 @@ Calculations folder: ${calc_basepath}
 Scratch folder: ${scratch_dir}
 Nanomatch-release files folder: ${nanomatch_release_dir}
 Micromamba environments folder: ${micromamba_envs_dir}
+.nanomatch.config file: ${config_file}
 EOF
 
     echo -e "\n${CYAN}You can view this list again by running:${NC}"
@@ -310,32 +292,6 @@ EOF
     echo -e "\n${GREEN}Installation completed successfully.${NC}"
 }
 
-update_nanoscope() {
-    echo -e "\n${GREEN}Updating Nanoscope...${NC}"
-
-    # Update nanomatch-release
-    if [ -d "nanomatch-release" ]; then
-        echo -e "${CYAN}Updating nanomatch-release repository...${NC}"
-        cd nanomatch-release
-        git pull
-        cd ..
-    fi
-
-    # Update WaNos
-    if [ -d "wano" ]; then
-        echo -e "${CYAN}Updating WaNos repository...${NC}"
-        cd wano
-        git pull
-        cd ..
-    fi
-
-    echo -e "${GREEN}Update complete.${NC}"
-}
-
-# Main logic
-if [ "$INSTALL_NANOSCOPE" = true ]; then
-    install_nanoscope
-elif [ "$UPDATE_NANOSCOPE" = true ]; then
-    update_nanoscope
-fi
+# Run the installation
+install_nanoscope
 
