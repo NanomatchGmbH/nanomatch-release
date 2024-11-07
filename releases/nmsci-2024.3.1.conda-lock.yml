@@ -73,18 +73,6 @@ package:
     sha256: 668f0825b6c18e4012ca24a0070562b6ec801ebc7008228a428eb52b4038873f
   category: main
   optional: false
-- name: appdirs
-  version: 1.4.4
-  manager: conda
-  platform: linux-64
-  dependencies:
-    python: ''
-  url: https://conda.anaconda.org/conda-forge/noarch/appdirs-1.4.4-pyh9f0ad1d_0.tar.bz2
-  hash:
-    md5: 5f095bc6454094e96f146491fd03633b
-    sha256: ae9fb8f68281f84482f2c234379aa12405a9e365151d43af20b3ae1f17312111
-  category: main
-  optional: false
 - name: arpack
   version: 3.8.0
   manager: conda
@@ -547,17 +535,17 @@ package:
   category: main
   optional: false
 - name: expat
-  version: 2.6.3
+  version: 2.6.4
   manager: conda
   platform: linux-64
   dependencies:
     __glibc: '>=2.17,<3.0.a0'
-    libexpat: 2.6.3
+    libexpat: 2.6.4
     libgcc: '>=13'
-  url: https://conda.anaconda.org/conda-forge/linux-64/expat-2.6.3-h5888daf_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/expat-2.6.4-h5888daf_0.conda
   hash:
-    md5: 6595440079bed734b113de44ffd3cd0a
-    sha256: 65bd479c75ce876f26600cb230d6ebc474086e31fa384af9b4282b36842ed7e2
+    md5: 1d6afef758879ef5ee78127eb4cd2c4a
+    sha256: 1848c7db9e264e3b8036ee133d570dd880422983cd20dd9585a505289606d276
   category: main
   optional: false
 - name: fftw
@@ -607,16 +595,17 @@ package:
   category: main
   optional: false
 - name: flexparser
-  version: 0.3.1
+  version: '0.4'
   manager: conda
   platform: linux-64
   dependencies:
     python: '>=3.9'
     typing-extensions: ''
-  url: https://conda.anaconda.org/conda-forge/noarch/flexparser-0.3.1-pyhd8ed1ab_0.conda
+    typing_extensions: ''
+  url: https://conda.anaconda.org/conda-forge/noarch/flexparser-0.4-pyhd8ed1ab_0.conda
   hash:
-    md5: 41ccc584228bb4c185cd0c92c5712741
-    sha256: b9b22b2018491c422abd7e274aebbd1e3a967def87f1f5110ec7e1512d299bc8
+    md5: fa7030389ca7b33bd3430dd12d25e91b
+    sha256: 039dcda4a774523fc0edd9a3a07b6122b4c404f9f098b42427225d86dc0fad6f
   category: main
   optional: false
 - name: font-ttf-dejavu-sans-mono
@@ -1477,16 +1466,16 @@ package:
   category: main
   optional: false
 - name: libexpat
-  version: 2.6.3
+  version: 2.6.4
   manager: conda
   platform: linux-64
   dependencies:
     __glibc: '>=2.17,<3.0.a0'
     libgcc: '>=13'
-  url: https://conda.anaconda.org/conda-forge/linux-64/libexpat-2.6.3-h5888daf_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/libexpat-2.6.4-h5888daf_0.conda
   hash:
-    md5: 59f4c43bb1b5ef1c71946ff2cbf59524
-    sha256: 4bb47bb2cd09898737a5211e2992d63c555d63715a07ba56eae0aff31fb89c22
+    md5: db833e03127376d461e1e13e76f09b6c
+    sha256: 56541b98447b58e52d824bd59d6382d609e11de1f8adf20b23143e353d2b8d26
   category: main
   optional: false
 - name: libffi
@@ -2807,20 +2796,19 @@ package:
   category: main
   optional: false
 - name: pint
-  version: 0.24.3
+  version: 0.24.4
   manager: conda
   platform: linux-64
   dependencies:
-    appdirs: '>=1.4.4'
     flexcache: '>=0.3'
-    flexparser: '>=0.3'
-    python: '>=3.9,<3.13.0a0'
-    typing-extensions: ''
-    typing_extensions: ''
-  url: https://conda.anaconda.org/conda-forge/noarch/pint-0.24.3-pyhd8ed1ab_0.conda
+    flexparser: '>=0.4'
+    platformdirs: '>=2.1.0'
+    python: '>=3.9'
+    typing_extensions: '>=4.0.0'
+  url: https://conda.anaconda.org/conda-forge/noarch/pint-0.24.4-pyhd8ed1ab_0.conda
   hash:
-    md5: ca12b329038e1a3b73f5f5d73ba99475
-    sha256: b6f2dd095747551ff2ec73b86c7d741720037c31facec845e402e21d35d4a450
+    md5: cb091db43679e633dc2a4b83cdd72069
+    sha256: 965a4e1a5d976ee244a84ed72e3ae3573335b7f5cf0cb5603a195842d319e7e6
   category: main
   optional: false
 - name: pip
@@ -2848,6 +2836,18 @@ package:
   hash:
     md5: 71004cbf7924e19c02746ccde9fd7123
     sha256: 366d28e2a0a191d6c535e234741e0cd1d94d713f76073d8af4a5ccb2a266121e
+  category: main
+  optional: false
+- name: platformdirs
+  version: 4.3.6
+  manager: conda
+  platform: linux-64
+  dependencies:
+    python: '>=3.8'
+  url: https://conda.anaconda.org/conda-forge/noarch/platformdirs-4.3.6-pyhd8ed1ab_0.conda
+  hash:
+    md5: fd8f2b18b65bbf62e8f653100690c8d2
+    sha256: c81bdeadc4adcda216b2c7b373f0335f5c78cc480d1d55d10f21823590d7e46f
   category: main
   optional: false
 - name: plumed
@@ -3400,7 +3400,7 @@ package:
   category: main
   optional: false
 - name: quantumpatch
-  version: 1.2.1
+  version: 1.2.2
   manager: conda
   platform: linux-64
   dependencies:
@@ -3427,10 +3427,10 @@ package:
     simona_python: ''
     threadfarm: ''
     treewalker: ''
-  url: https://mamba.nanomatch-distribution.de/mamba-repo/linux-64/quantumpatch-1.2.1-py312h3fd9d12_0.tar.bz2
+  url: https://mamba.nanomatch-distribution.de/mamba-repo/linux-64/quantumpatch-1.2.2-py312h3fd9d12_0.tar.bz2
   hash:
-    md5: 190b80647adb190c7c9815a03e470226
-    sha256: ebaa4751f06e92cf37aabad99726cfe18941c9a4b8cfc90ac6bf44185624b723
+    md5: 20d276e3443f945824ee9df323f99864
+    sha256: 511fa5b02ea2a6666c659c156fe09ae233403368f2a6b1fe6232e518edd09c73
   category: main
   optional: false
 - name: readline
