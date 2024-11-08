@@ -16,5 +16,6 @@ dependencies:
   - mypycp2k
   - python=3.12
   - nanomatch_config
+  - optking=0.2.1
 platforms:
   - linux-64
