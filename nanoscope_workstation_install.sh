@@ -1,6 +1,14 @@
 #!/bin/bash
 
 # Nanoscope Installer Script
+#
+function nproc {
+    grep ^cpu\\scores /proc/cpuinfo | uniq |  awk '{print $4}'
+}
+
+function memory_in_megs {
+    grep MemTotal /proc/meminfo | awk '{print int($2/1024)}'
+}
 
 # Color codes for highlighting
 RED='\033[0;31m'
@@ -224,10 +232,10 @@ install_nanoscope() {
 {
     "resource_name": "localhost",
     "walltime": "86399",
-    "cpus_per_node": "8",
+    "cpus_per_node": "$(nproc)",
     "nodes": "1",
     "queue": "default",
-    "memory": "15354",
+    "memory": "$(memory_in_megs)",
     "custom_requests": "",
     "base_URI": "localhost",
     "port": "22",
