@@ -230,7 +230,7 @@ install_nanoscope() {
     local_clustersettings_file="${cluster_settings_dir}/Local.clustersettings"
     cat <<EOF > "$local_clustersettings_file"
 {
-    "resource_name": "localhost",
+    "resource_name": "Local",
     "walltime": "86399",
     "cpus_per_node": "$(nproc)",
     "nodes": "1",
