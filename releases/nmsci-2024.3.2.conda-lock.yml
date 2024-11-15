@@ -3400,7 +3400,7 @@ package:
   category: main
   optional: false
 - name: quantumpatch
-  version: 1.2.3
+  version: 1.2.4
   manager: conda
   platform: linux-64
   dependencies:
@@ -3427,10 +3427,10 @@ package:
     simona_python: ''
     threadfarm: ''
     treewalker: ''
-  url: https://mamba.nanomatch-distribution.de/mamba-repo/linux-64/quantumpatch-1.2.3-py312h3fd9d12_0.tar.bz2
+  url: https://mamba.nanomatch-distribution.de/mamba-repo/linux-64/quantumpatch-1.2.4-py312h3fd9d12_0.tar.bz2
   hash:
-    md5: 05b9ebebd72e86ae08e6b6221d3222fe
-    sha256: b6cf90140145622c2626803908608cb0918e3fe3caef788d35e3d19070e35fab
+    md5: b756f789180ccec74c119efeffb33129
+    sha256: 7b45c5ecbd375f1caad9660deecdf4a420dcdf7fb43752d408c8e59a68568f21
   category: main
   optional: false
 - name: readline
