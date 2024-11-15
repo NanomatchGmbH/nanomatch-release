@@ -2,6 +2,11 @@
 
 Changelog about new releases of our software landscape 
 
+## [2024.3.2] - 2024.11.15
+
+- QP bugfix for PBC for sparse systems
+- Fixed output indirection in pyscf
+
 ## [2024.3] - 2024.11.06
 
 - QP fixes for IP EA runs, compatible with ESAnalysis WaNo
