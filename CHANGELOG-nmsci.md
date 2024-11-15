@@ -4,6 +4,7 @@ Changelog about new releases of our software landscape
 
 ## [2024.3.2] - 2024.11.15
 
+- QP bugfix for shell setup -> in line with changes for wanos
 - QP bugfix for PBC for sparse systems
 - Fixed output indirection in pyscf
 
