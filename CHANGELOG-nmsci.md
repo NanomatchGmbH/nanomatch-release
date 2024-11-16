@@ -2,6 +2,14 @@
 
 Changelog about new releases of our software landscape 
 
+## [SimStackServer 1.5.2] - 2024.11.16
+
+- bugfix in SimStack Server to allow other paths than simstack_workspace
+
+## [2024.3.3} - 2024.11.15
+
+- yet another PBC bugfix
+
 ## [2024.3.2] - 2024.11.15
 
 - QP bugfix for shell setup -> in line with changes for wanos
