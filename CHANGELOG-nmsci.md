@@ -2,6 +2,12 @@
 
 Changelog about new releases of our software landscape 
 
+## [2024.3.4} - 2024.11.19
+
+- added entrypoint for tool to estimate number of molecules required to fill a given volume
+- changed defaults for scf convergence in PySCF
+- fixed crash of IPEA analysis for medium sized system. Aborts ESAnalysis IPEA mode for very small systems
+
 ## [SimStackServer 1.5.2] - 2024.11.16
 
 - bugfix in SimStack Server to allow other paths than simstack_workspace
