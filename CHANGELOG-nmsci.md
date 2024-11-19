@@ -2,7 +2,7 @@
 
 Changelog about new releases of our software landscape 
 
-## [2024.3.4} - 2024.11.19
+## [2024.3.4] - 2024.11.19
 
 - added entrypoint for tool to estimate number of molecules required to fill a given volume
 - changed defaults for scf convergence in PySCF
