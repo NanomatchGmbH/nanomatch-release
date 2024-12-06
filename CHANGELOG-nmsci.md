@@ -2,6 +2,13 @@
 
 Changelog about new releases of our software landscape 
 
+
+## [2024.3.5] - 2024.12.06
+
+- geometric engine will be used by default for geometry optimization. Convergence, grids and symmetry settings were changed.
+- added an option to add a DFT preoptimization (like SVP before TZVP), which is not activated by default
+- affected modules: MolPrep, Parametrizer (with Psi4 Engine); QuantumPatch if using geometry optimization and Psi4 Engine
+
 ## [2024.3.4] - 2024.11.19
 
 - added entrypoint for tool to estimate number of molecules required to fill a given volume
