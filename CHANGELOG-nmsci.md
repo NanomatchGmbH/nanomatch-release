@@ -3,6 +3,10 @@
 Changelog about new releases of our software landscape 
 
 
+## [2024.3.6] - 2024.12.13
+
+- oom fix in DHP (MolPrep) for larger molecules with pyscf; required changes in QP as well
+
 ## [2024.3.5] - 2024.12.06
 
 - geometric engine will be used by default for geometry optimization. Convergence, grids and symmetry settings were changed.
