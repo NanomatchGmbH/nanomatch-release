@@ -2,6 +2,9 @@
 
 Changelog about new releases of our software landscape 
 
+## [2024.3.7] - 2024.12.17
+
+- LF fix
 
 ## [2024.3.6] - 2024.12.13
 
