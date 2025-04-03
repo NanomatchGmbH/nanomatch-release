@@ -2,6 +2,10 @@
 
 Changelog about new releases of our software landscape 
 
+## [2024.3.8] - 2025.04.2
+
+- downpin cmwrapper to allow usage on older linux
+
 ## [2024.3.7] - 2024.12.17
 
 - LF fix

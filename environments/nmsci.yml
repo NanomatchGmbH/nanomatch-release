@@ -17,5 +17,6 @@ dependencies:
   - python=3.12
   - nanomatch_config
   - optking=0.2.1
+  - cmwrapper=1.0.4
 platforms:
   - linux-64
