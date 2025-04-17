@@ -7,7 +7,7 @@ dependencies:
   - deposit
   - lightforge
   - psi4
-  - pyscf
+  - pyscf=2.4.0
   - dftbplus
   - dftbparameters
   - xtb
