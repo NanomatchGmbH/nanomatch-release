@@ -2,6 +2,11 @@
 
 Changelog about new releases of our software landscape 
 
+## [2024.3.7] - 2025.04.17
+
+- Repin for performance of pyscf upgrade
+- Repin to older cmwrapper version, as newest one did not work for centos 7
+
 ## [2024.3.7] - 2024.12.17
 
 - LF fix
